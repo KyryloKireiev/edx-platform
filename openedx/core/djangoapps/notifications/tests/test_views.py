@@ -14,8 +14,10 @@ from common.djangoapps.student.models import CourseEnrollment
 from common.djangoapps.student.tests.factories import UserFactory
 from openedx.core.djangoapps.content.course_overviews.tests.factories import CourseOverviewFactory
 from openedx.core.djangoapps.notifications.config.waffle import ENABLE_NOTIFICATIONS
-from openedx.core.djangoapps.notifications.models import Notification, NotificationPreference, \
-    get_notification_preference_config
+from openedx.core.djangoapps.notifications.models import (
+    Notification,
+    CourseNotificationPreference,
+)
 from openedx.core.djangoapps.notifications.serializers import NotificationCourseEnrollmentSerializer
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from xmodule.modulestore.tests.factories import CourseFactory
@@ -33,7 +35,6 @@ class CourseEnrollmentListViewTest(ModuleStoreTestCase):
         super().setUp()
         self.client = APIClient()
         self.user = UserFactory()
-        # self.client.force_authenticate(user=self.user)
         course_1 = CourseFactory.create(
             org='testorg',
             number='testcourse',
@@ -123,8 +124,8 @@ class CourseEnrollmentPostSaveTest(ModuleStoreTestCase):
             created=True
         )
 
-        # Assert that NotificationPreference object was created with correct attributes
-        notification_preferences = NotificationPreference.objects.all()
+        # Assert that CourseNotificationPreference object was created with correct attributes
+        notification_preferences = CourseNotificationPreference.objects.all()
 
         self.assertEqual(notification_preferences.count(), 1)
         self.assertEqual(notification_preferences[0].user, self.user)
@@ -136,6 +137,7 @@ class UserNotificationPreferenceAPITest(ModuleStoreTestCase):
     """
     Test for user notification preference API.
     """
+
     def setUp(self):
         super().setUp()
         self.user = UserFactory()
@@ -169,7 +171,43 @@ class UserNotificationPreferenceAPITest(ModuleStoreTestCase):
             'id': 1,
             'course_name': 'course-v1:testorg+testcourse+testrun Course',
             'course_id': 'course-v1:testorg+testcourse+testrun',
-            'notification_preference_config': get_notification_preference_config(),
+            'notification_preference_config': {
+                'discussion': {
+                    'enabled': True,
+                    'not_editable': {
+                        'new_comment_on_post': ['push'],
+                        'new_response_on_post': ['web'],
+                        'new_response_on_comment': ['web', 'push']
+                    },
+                    'notification_types': {
+                        'new_comment_on_post': {
+                            'email': True,
+                            'push': True,
+                            'web': True,
+                            'info': 'Comment on post'
+                        },
+                        'new_response_on_comment': {
+                            'email': True,
+                            'push': True,
+                            'web': True,
+                            'info': 'Response on comment'
+                        },
+                        'new_response_on_post': {
+                            'email': True,
+                            'push': True,
+                            'web': True,
+                            'info': 'New Response on Post'
+                        },
+                        'core': {
+                            'email': True,
+                            'push': True,
+                            'web': True,
+                            'info': 'comment on post and response on comment'
+                        }
+                    },
+                    'core_notification_types': []
+                }
+            },
         }
 
     def test_get_user_notification_preference_without_login(self):
@@ -193,8 +231,8 @@ class UserNotificationPreferenceAPITest(ModuleStoreTestCase):
         ('discussion', None, None, False, status.HTTP_200_OK, 'app_update'),
         ('invalid_notification_app', None, None, True, status.HTTP_400_BAD_REQUEST, None),
 
-        ('discussion', 'new_post', 'web', True, status.HTTP_200_OK, 'type_update'),
-        ('discussion', 'new_post', 'web', False, status.HTTP_200_OK, 'type_update'),
+        ('discussion', 'new_comment_on_post', 'web', True, status.HTTP_200_OK, 'type_update'),
+        ('discussion', 'new_response_on_post', 'web', False, status.HTTP_200_OK, 'type_update'),
 
         ('discussion', 'core', 'email', True, status.HTTP_200_OK, 'type_update'),
         ('discussion', 'core', 'email', False, status.HTTP_200_OK, 'type_update'),
@@ -252,7 +290,6 @@ class NotificationListAPIViewTest(APITestCase):
             user=self.user,
             app_name='app1',
             notification_type='info',
-            content='This is a notification.',
         )
         self.client.login(username=self.user.username, password='test')
 
@@ -267,7 +304,6 @@ class NotificationListAPIViewTest(APITestCase):
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['app_name'], 'app1')
         self.assertEqual(data[0]['notification_type'], 'info')
-        self.assertEqual(data[0]['content'], 'This is a notification.')
 
     def test_list_notifications_with_app_name_filter(self):
         """
@@ -278,13 +314,11 @@ class NotificationListAPIViewTest(APITestCase):
             user=self.user,
             app_name='app1',
             notification_type='info',
-            content='This is a notification for app1.',
         )
         Notification.objects.create(
             user=self.user,
             app_name='app2',
             notification_type='info',
-            content='This is a notification for app2.',
         )
         self.client.login(username=self.user.username, password='test')
 
@@ -299,7 +333,6 @@ class NotificationListAPIViewTest(APITestCase):
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['app_name'], 'app1')
         self.assertEqual(data[0]['notification_type'], 'info')
-        self.assertEqual(data[0]['content'], 'This is a notification for app1.')
 
     def test_list_notifications_without_authentication(self):
         """
@@ -363,6 +396,7 @@ class MarkNotificationsUnseenAPIViewTestCase(APITestCase):
     """
     Tests for the MarkNotificationsUnseenAPIView.
     """
+
     def setUp(self):
         self.user = UserFactory()
 
