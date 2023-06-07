@@ -274,6 +274,7 @@ def _find_position_of_link(links, key):
 def _footer_navigation_links(language=settings.LANGUAGE_CODE):
     """Return the navigation links to display in the footer. """
     platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
+    link_ukraine_wiki = configuration_helpers.get_value('ABOUT_UKRAINE_WIKI', settings.MKTG_URL_LINK_MAP["ABOUT_UKRAINE"])
     links = [
         ("about", (marketing_link("ABOUT"), _("About"))),
         ("enterprise", (
@@ -285,7 +286,7 @@ def _footer_navigation_links(language=settings.LANGUAGE_CODE):
         ("contact", (_build_support_form_url(), _("Contact"))),
         ("careers", (marketing_link("CAREERS"), _("Careers"))),
         ("donate", (marketing_link("DONATE"), _("Donate"))),
-        ("about_ukraine", ("https://en.wikipedia.org/wiki/Ukraine", _("About Ukraine"))),
+        ("about_ukraine", (link_ukraine_wiki, _("About Ukraine"))),
     ]
 
     if language == settings.LANGUAGE_CODE:
