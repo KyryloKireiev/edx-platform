@@ -285,6 +285,7 @@ def _footer_navigation_links(language=settings.LANGUAGE_CODE):
         ("contact", (_build_support_form_url(), _("Contact"))),
         ("careers", (marketing_link("CAREERS"), _("Careers"))),
         ("donate", (marketing_link("DONATE"), _("Donate"))),
+        ("about_ukraine", ("https://en.wikipedia.org/wiki/Ukraine", _("About Ukraine"))),
     ]
 
     if language == settings.LANGUAGE_CODE:

@@ -16168,3 +16168,7 @@ msgstr "Наша поштова адреса - "
 #: lms/templates/index_overlay.html
 msgid "Glory to Ukraine!!!"
 msgstr "Слава Україні!!!"
+
+#: lms/djangoapps/branding/api.py:288
+msgid "About Ukraine"
+msgstr "Про Україну"
