@@ -1778,7 +1778,7 @@ MEDIA_URL = '/media/'
 # Locale/Internationalization
 CELERY_TIMEZONE = 'UTC'
 TIME_ZONE = 'UTC'
-LANGUAGE_CODE = 'en'  # http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'uk'  # http://www.i18nguy.com/unicode/language-identifiers.html
 # these languages display right to left
 LANGUAGES_BIDI = ("he", "ar", "fa", "ur", "fa-ir", "rtl")
 
@@ -3307,6 +3307,10 @@ MKTG_URL_LINK_MAP = {
 
     # Verified Certificates
     'WHAT_IS_VERIFIED_CERT': 'verified-certificate',
+    # add custom link:
+    # you can set link here or set it in django admin: /admin/site_configuration/
+    # you may set name for the link in Django admin: "ABOUT_UKRAINE_WIKI"
+    "ABOUT_UKRAINE": "set_some_link",
 }
 
 STATIC_TEMPLATE_VIEW_DEFAULT_FILE_EXTENSION = 'html'
