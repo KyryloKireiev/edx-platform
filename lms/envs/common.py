@@ -3228,6 +3228,10 @@ INSTALLED_APPS = [
 
     # Blockstore
     'blockstore.apps.bundles',
+
+    # add my custom app "Onboarding"
+    # 'lms.djangoapps.onboarding.apps.OnboardingConfig'
+    'lms.djangoapps.onboarding'
 ]
 
 ######################### CSRF #########################################
@@ -3311,6 +3315,8 @@ MKTG_URL_LINK_MAP = {
     # you can set link here or set it in django admin: /admin/site_configuration/
     # you may set name for the link in Django admin: "ABOUT_UKRAINE_WIKI"
     "ABOUT_UKRAINE": "set_some_link",
+    # add onboarding link:
+    "ONBOARDING_URL": "onboarding"
 }
 
 STATIC_TEMPLATE_VIEW_DEFAULT_FILE_EXTENSION = 'html'

@@ -1,0 +1,18 @@
+<%! main_css = "css/bootstrap/lms-main.css" %>
+
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%def name="online_help_token()"><% return "programs" %></%def>
+<%!
+from django.utils.translation import ugettext as _
+from openedx.core.djangolib.markup import HTML
+%>
+
+<%block name="pagetitle">${_("Onboarding")}</%block>
+
+<body>
+    <h1>This is the onboarding page</h1>
+</body>
+
+<%include file="learner_dashboard/_dashboard_navigation_programs.html"/>
+
