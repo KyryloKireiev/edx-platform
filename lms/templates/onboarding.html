@@ -10,9 +10,7 @@ from openedx.core.djangolib.markup import HTML
 
 <%block name="pagetitle">${_("Onboarding")}</%block>
 
-<body>
-    <h1>This is the onboarding page</h1>
-</body>
+<%block name="onboarding"><h1>${_("This is the onboarding page")}</h1></%block>
 
 <%include file="learner_dashboard/_dashboard_navigation_programs.html"/>
 

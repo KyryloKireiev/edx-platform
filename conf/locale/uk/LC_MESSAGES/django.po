@@ -16172,3 +16172,11 @@ msgstr "Слава Україні!!!"
 #: lms/djangoapps/branding/api.py:288
 msgid "About Ukraine"
 msgstr "Про Україну"
+
+#: lms/templates/onboarding.html
+msgid "Onboarding"
+msgstr "Онбордінг"
+
+#: lms/templates/onboarding.html
+msgid "This is the onboarding page"
+msgstr "Це сторінка онбордінга"
