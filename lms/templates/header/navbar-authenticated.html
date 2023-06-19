@@ -74,3 +74,20 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     <%include file="user_dropdown.html"/>
   </div>
 </div>
+
+<%
+plugin_page_link = getattr(settings, 'PLUGIN_PAGE_URL', None)
+%>
+
+% if plugin_page_link:
+<div class="nav-links">
+  <div class="main">
+    <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+      <a class="tab-nav-link discover-new-link" href="${plugin_page_link}"
+         aria-current="${'page' if '/plugin_page' in request.path else 'false'}">
+         ${_('Plugin Page')}
+      </a>
+    </div>
+  </div>
+</div>
+% endif
