@@ -16191,3 +16191,6 @@ msgstr "Це тестова сторінка плагіна"
 
 msgid "This is the plugin page"
 msgstr "Це сторінка плагіна"
+
+msgid "My theme link"
+msgstr "Лінк теми"

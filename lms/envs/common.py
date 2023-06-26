@@ -4425,7 +4425,7 @@ DEFAULT_SITE_THEME = None
 #   defined by DEFAULT_SITE_THEME.
 # .. toggle_use_cases: open_edx
 # .. toggle_creation_date: 2016-06-30
-ENABLE_COMPREHENSIVE_THEMING = False
+ENABLE_COMPREHENSIVE_THEMING = True
 
 # API access management
 API_ACCESS_MANAGER_EMAIL = 'api-access@example.com'
