@@ -437,7 +437,7 @@ DCS_SESSION_COOKIE_SAMESITE_FORCE_ALL = True
 from .common import _make_mako_template_dirs
 ENABLE_COMPREHENSIVE_THEMING = True
 COMPREHENSIVE_THEME_DIRS = [
-    "/edx/app/edx-themes/edx-platform"
+    "/edx/app/edxapp/edx-platform/themes"
 ]
 TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
 derive_settings(__name__)
